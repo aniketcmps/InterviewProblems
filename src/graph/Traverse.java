@@ -14,7 +14,7 @@ class Traverse {
 
 		while (queue.size()!=0) {
 			s = queue.poll();
-			System.out.println(s+" ");
+			System.out.print(s+" ");
 			Iterator<Integer> temp = g.adj[s].listIterator();
 			
 			while (temp.hasNext()) {
@@ -27,6 +27,23 @@ class Traverse {
 		}
 	}
 
+	public void dfs(int s,Graph g){
+		boolean visited[]=new boolean[g.vertices];
+		dfsRec(s, visited, g);
+	}
+	
+	public void dfsRec(int s, boolean visited[], Graph g){
+		visited[s]=true;
+		System.out.print(s+" ");
+		Iterator<Integer> i=g.adj[s].listIterator();
+		while(i.hasNext()){
+			int n=i.next();
+			if(!visited[n]){
+				dfsRec(n,visited,g);
+			}
+		}
+	}
+	
 	public static void main(String args[]) {
 		Traverse t = new Traverse();
 		Graph g = new Graph(4);
@@ -39,7 +56,9 @@ class Traverse {
 		g.addEdge(3, 3);
 
 		System.out.println("Breadth First Traversal " + "(starting from vertex 2)");
-
 		t.bfs(2, g);
+		System.out.println();
+		System.out.println("Depth First Traversal " + "(starting from vertex 2)");
+		t.dfs(2, g);
 	}
 }

@@ -7,11 +7,12 @@ import java.util.Map;
 class GraphCycle {
 	public boolean directedCycle(Graph g) {
 		boolean visiting[] = new boolean[g.vertices];
-		boolean complete[] = new boolean[g.vertices];
 		Map<Integer, Integer> parent = new HashMap<Integer, Integer>();
 		for (int i = 0; i < visiting.length; i++) {
-			if (directedCycleRec(i, g, visiting, complete, parent)) {
-				return true;
+			if (!visiting[i]) {
+				if (directedCycleRec(i, g, visiting, parent)) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -28,26 +29,22 @@ class GraphCycle {
 		System.out.println();
 	}
 
-	public boolean directedCycleRec(int s, Graph g, boolean visiting[], boolean complete[], Map<Integer, Integer> map) {
-		if (!complete[s]) {
-			visiting[s] = true;
-			Iterator<Integer> temp = g.adj[s].listIterator();
-			while (temp.hasNext()) {
-				int n = temp.next();
-				map.put(n, s);
-				if (!visiting[n]) {
-					if (directedCycleRec(n, g, visiting, complete, map)) {
-						return true;
-					}
-				} else {
-					printCycle(n, map, g);
-					return true; // cycle detected
+	public boolean directedCycleRec(int s, Graph g, boolean visiting[], Map<Integer, Integer> map) {
+		visiting[s] = true;
+		Iterator<Integer> temp = g.adj[s].listIterator();
+		while (temp.hasNext()) {
+			int n = temp.next();
+			map.put(n, s);
+			if (!visiting[n]) {
+				if (directedCycleRec(n, g, visiting, map)) {
+					return true;
 				}
+			} else {
+				printCycle(n, map, g);
+				return true; // cycle detected
 			}
-			complete[s] = true;
-			visiting[s] = false;
-			return false;
 		}
+		visiting[s] = false;
 		return false;
 	}
 
@@ -59,7 +56,7 @@ class GraphCycle {
 		g.addEdge(1, 2);
 		g.addEdge(2, 0);
 		g.addEdge(2, 3);
-		// g.addEdge(3, 3);
+		g.addEdge(3, 3);
 
 		if (gc.directedCycle(g)) {
 			System.out.println("Cycle detected");

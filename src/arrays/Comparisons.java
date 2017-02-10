@@ -1,6 +1,9 @@
 package arrays;
 
-import java.util.Arrays;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Stack;
 
 public class Comparisons {
 	/**
@@ -62,6 +65,38 @@ public class Comparisons {
 		return -1;
 	}
 
+	/**
+	 * Given an array, print the Next Greater Element (NGE) for every element.
+	 * O(n) worst case when array reverse sorted
+	 */
+	public void nextGreater(int a[]) {
+		Stack<Integer> s = new Stack<Integer>();
+		s.push(a[0]);
+		int n = a.length;
+		int current, pos;
+
+		for (int i = 1; i < n; i++) {
+			current = a[i];
+			while (!s.isEmpty()) {
+				pos = s.pop();
+				if (pos < current) {
+					System.out.println(pos + "  ----  " + current);
+				}
+				if (pos > current) {
+					s.push(pos);
+					break;
+				}
+			}
+			s.push(current);
+		}
+
+		Deque<Integer> e=new ArrayDeque<Integer>(3);
+		while (!s.isEmpty()) {
+			pos = s.pop();
+			System.out.println(pos + "  ----  -1");
+		}
+	}
+
 	public static void main(String[] args) {
 		Comparisons c = new Comparisons();
 		int arr[] = { 1, 2, 3, 3, 3, 3, 10 };
@@ -72,8 +107,11 @@ public class Comparisons {
 		else
 			System.out.println(x + " does not appears more than " + arr.length / 2 + " times in arr[]");
 
-		int array[] = {-7, 1, 5, 2, -4, 3, 0};
-		System.out.println("Equilibrium is achieved at index "+c.findEquilibrium(array));
+		int array[] = { -7, 1, 5, 2, -4, 3, 0 };
+		System.out.println("Equilibrium is achieved at index " + c.findEquilibrium(array));
+
+		int g[] = { 11, 13, 21, 3 };
+		c.nextGreater(array);
 	}
 
 }

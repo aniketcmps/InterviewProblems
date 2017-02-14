@@ -118,8 +118,8 @@ public class LinkedList {
 			return 1 + getCount(n.next);
 		}
 	}
-	
-	public int lengthRec(){
+
+	public int lengthRec() {
 		return getCount(head);
 	}
 
@@ -130,6 +130,68 @@ public class LinkedList {
 			temp = temp.next;
 		}
 		System.out.print("\n");
+	}
+
+	// Reverse the linked list
+	public Node reverse() {
+		Node previous = null;
+		Node current = head;
+		Node next = null;
+
+		while (current != null) {
+			next = current.next;
+			current.next = previous;
+			previous = current;
+			current = next;
+		}
+
+		return previous;
+	}
+
+	/**
+	 * Given a linked list and two keys in it, swap nodes for two given keys.
+	 * Nodes should be swapped by changing links. Swapping data of nodes may be
+	 * expensive in many situations when data contains many fields.
+	 */
+	public void swap(int a, int b) {
+		if (a == b) {
+			return; // Same node
+		}
+
+		Node prevA = null;
+		Node currA = head;
+		while (currA != null && currA.data != a) {
+			prevA = currA;
+			currA = currA.next;
+		}
+
+		Node prevB = null;
+		Node currB = head;
+		while (currB != null && currB.data != b) {
+			prevB = currB;
+			currB = currB.next;
+		}
+
+		if (currA == null || currB == null) {
+			return; // Node not present
+		}
+
+		if (prevA != null) {
+			prevA.next = currB;
+		} else {
+			head = currB; // A was head
+		}
+
+		if (prevB != null) {
+			prevB.next = currA;
+		} else {
+			head = currA; // B was head
+		}
+
+		// swap the next pointers of a and b
+		Node temp = currA.next;
+		currA.next = currB.next;
+		currB.next = temp;
 	}
 
 	public static void main(String[] args) {
@@ -143,6 +205,14 @@ public class LinkedList {
 		llist.printList();
 		System.out.println("Length of the list is " + llist.length());
 
+		System.out.println("\nAfter Reversing the Linkedlist ");
+		llist.head = llist.reverse();
+		llist.printList();
+
+		System.out.println("\nAfter swapping 7 and 4 ");
+		llist.swap(7, 4);
+		llist.printList();
+
 		System.out.println("\nAfter Deleting ");
 		llist.delete(1);
 		llist.delete(10);
@@ -150,6 +220,10 @@ public class LinkedList {
 		llist.deleteAt(8);
 		llist.printList();
 		System.out.println("Length of the list is " + llist.lengthRec());
+
+		System.out.println("After swapping 7 and 4 ");
+		llist.swap(7, 4);
+		llist.printList();
 	}
 
 }

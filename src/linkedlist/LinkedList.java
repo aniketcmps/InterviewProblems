@@ -100,6 +100,11 @@ public class LinkedList {
 		}
 	}
 
+	// Delete entire list
+	void deleteList() {
+		head = null;
+	}
+
 	// Find length of Linked List
 	public int length() {
 		int length = 0;
